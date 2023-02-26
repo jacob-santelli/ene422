@@ -80,9 +80,25 @@ def simulate_hour(mean_demand, generator_data):
 def sandbox():
    df = pd.DataFrame()
 
-def set_portfolio_prices(data, price_func, portfolio):
-   data_copy = data.copy()
-   
+# set all of the generators from portfolio port
+# to a price defined by some arbitrary function
+# price_func by passing all relevant parameters
+def set_portfolio_prices(data, price_func, port):
+  data_copy = data.copy()
+  list_of_ids = get_ids_of_portfolios(data_copy, port)
+
+  for id in data_copy:
+    if id in list_of_ids:
+      data_copy[data_copy['id'] == id]['price'] = \
+      price_func(data_copy[data_copy['id'] == id]['mw'],
+                 data_copy[data_copy['id'] == id]['varom'],
+                 data_copy[data_copy['id'] == id]['carbon'],
+                 data_copy[data_copy['id'] == id]['varom'],
+                 data_copy[data_copy['id'] == id]['fixom'],
+                 )
+      
+  
+
 
 
 if __name__ == "__main__":
