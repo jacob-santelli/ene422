@@ -70,6 +70,8 @@ def simulate_hour(mean_demand, generator_data):
   # Get cumulative demand
   data_copy['cumulative_capacity'] = data_copy.loc[:, ('mw')].cumsum()
 
+  # 
+
   print(data_copy.head())
 
 def sandbox():
