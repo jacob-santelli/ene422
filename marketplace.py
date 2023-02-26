@@ -37,7 +37,7 @@ def calcRevenue(df):
 
 def main():
 
-    portfolios_data = pd.read_csv("./Portfolios-2.csv")
+    portfolios_data = pd.read_csv("./generator_info.csv")
 
     portfolios_data['is_generating'] = False
     portfolios_data['price'] = 0
