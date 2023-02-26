@@ -21,6 +21,10 @@ def portSort(portFrame):
 def sampleDemand(mean_demand, sd = 0.03):
   pass
 
+def calcRevenue(portFrame):
+  df = portFrame.loc[portFrame['is_generating'] == True, : ]
+  df['revenue'] = df['mw'] * df['price'] - df['fixom'] - df['varom'] - df['carbon']
+
 # ------------ SINGLE ITERATION ---------------
 # 1. Portfolios send prices
 # 2. All supply sorted and creates supply curve
@@ -38,6 +42,12 @@ def main():
     # gimme port 1
     portfolios_data[portfolios_data['portfolio'] == 3].loc[:, ('price')]= 1
     print(portfolios_data[portfolios_data['portfolio'] == 3])
+
+
+    demand_data = pd.read_csv("./demand_curve.csv")
+
+
+
 
     
 
