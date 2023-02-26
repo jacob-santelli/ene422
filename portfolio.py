@@ -4,9 +4,15 @@
 # Author: Jacob Santelli and Ian Murphy
 #--------------------------------------------
 
-import pandas
+import pandas as pd
 
 
 class Portfolio:
-    def __init__(self) -> None:
-        pass
+  def __init__(self, listGen):
+    columns = {'self', portfolio, portfolioname, 
+               name, id, location, mw, fuelcost, varom, fixom,
+               carbon, resource, marginal}
+    df = pd.DataFrame(columns= columns)
+    for gen in listGen: {
+        df.append(gen)
+    }
