@@ -40,7 +40,8 @@ def calcRevenue(df, price):
 
 def main():
     portfolios_data = pd.read_csv("./generator_info.csv")
-
+    # Drop missing values
+    portfolios_data.dropna(inplace=True)
     portfolios_data["is_generating"] = False
     portfolios_data["price"] = np.random.randint(1, 6, size=portfolios_data.shape[0])
 
@@ -76,17 +77,20 @@ def simulate_hour(mean_demand, generator_data):
     templist = data_copy.loc[:, ("mw")].cumsum()
     data_copy["cumulative_capacity"] = templist
 
-    print(f"Pre: {data_copy.shape}")
     # Get energy price for this hour
     data_copy["is_generating"] = data_copy["cumulative_capacity"] < sampled_demand
-    print(f"Post: {data_copy.shape}")
 
-    # Marginal generator - need to cover entire demand, so add final generator
-    marg_gen = data_copy[~data_copy["is_generating"]].iloc[0]
-
-    print(f"Sampled demand: {sampled_demand}")
-    print(marg_gen)
-    print(data_copy[data_copy["is_generating"]].iloc[-1])
+    # Marginal generator - need to cover entire demand (perfectly inelastic), so add final generator
+    marg_gen_index = data_copy.loc[~data_copy["is_generating"], :].index.values.tolist()[0]
+    # (also set is_generating true for marg gen)
+    data_copy.loc[data_copy.index == marg_gen_index, 'is_generating'] = True
+    # Hour price
+    hour_price = data_copy[data_copy.index == marg_gen_index]['price']
+    
+    # Get revenues of entire dataframe
+    
+    # If is_generating True, then calculate revenue on these
+    return {'hour_price': hour_price, 'dataframe': data_copy.loc[data_copy['is_generating'], :]}
 
 
 def sandbox():
