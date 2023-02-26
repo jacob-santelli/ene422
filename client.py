@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
 #--------------------------------------------
-# portfolio.py
+# client.py
 # Author: Jacob Santelli and Ian Murphy
 #--------------------------------------------
