@@ -21,10 +21,10 @@ def portSort(portFrame):
 def sampleDemand(mean_demand, sd = 0.03):
   pass
 
-def calcRevenue(df):
+def calcRevenue(df, price):
   df['revenue'] = df['is_generating'] * \
    (df['mw'] * \
-   (df['price'] - \
+   (price - \
     df['fuelcost'] - df['varom'] - df['carbon']))
     
 
@@ -45,6 +45,9 @@ def main():
 
     print(portfolios_data.head(n=50))
     simulate_hour(10, portfolios_data)
+
+    demand_data = pd.read_csv("./demand_curve.csv")
+
 
     
 def sample_demand(mu, sd=0.03):
@@ -76,6 +79,10 @@ def simulate_hour(mean_demand, generator_data):
 
 def sandbox():
    df = pd.DataFrame()
+
+def set_portfolio_prices(data, price_func, portfolio):
+   data_copy = data.copy()
+   
 
 
 if __name__ == "__main__":
