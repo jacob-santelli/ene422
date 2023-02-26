@@ -9,9 +9,9 @@ import pandas as pd
 
 class Portfolio:
   def __init__(self, listGen):
-    columns = {'self', portfolio, portfolioname, 
-               name, id, location, mw, fuelcost, varom, fixom,
-               carbon, resource, marginal}
+    columns = {'self', 'portfolio', 'portfolioname', 
+               'name', 'id', 'location', 'mw', 'fuelcost', 'varom', 'fixom',
+               'carbon', 'resource', 'marginal'}
     df = pd.DataFrame(columns= columns)
     for gen in listGen: {
         df.append(gen)
