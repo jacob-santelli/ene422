@@ -39,12 +39,12 @@ def main():
 
     portfolios_data = pd.read_csv("./generator_info.csv")
 
-    data['is_generating'] = False
-    data['price'] = np.random.randint(1, 6, size=data.shape[0])
+    portfolios_data['is_generating'] = False
+    portfolios_data['price'] = np.random.randint(1, 6, size=portfolios_data.shape[0])
 
 
-    print(data.head(n=50))
-    simulate_hour(10, data)
+    print(portfolios_data.head(n=50))
+    simulate_hour(10, portfolios_data)
 
     
 def sample_demand(mu, sd=0.03):
