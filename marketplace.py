@@ -33,8 +33,10 @@ def main():
     data = pd.read_csv("./Portfolios-2.csv")
 
     data['is_generating'] = False
-    data['price'] = [np.random.randint(5)]* len(data)
+    data['price'] = np.random.randint(1, 6, size=data.shape[0])
 
+
+    print(data.head(n=50))
     simulate_hour(10, data)
 
     
