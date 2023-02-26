@@ -21,9 +21,12 @@ def portSort(portFrame):
 def sampleDemand(mean_demand, sd = 0.03):
   pass
 
-def calcRevenue(portFrame):
-  df = portFrame.loc[portFrame['is_generating'] == True, : ]
-  df['revenue'] = df['mw'] * df['price'] - df['fixom'] - df['varom'] - df['carbon']
+def calcRevenue(df):
+  df['revenue'] = df['is_generating'] * \
+   (df['mw'] * \
+   (df['price'] - \
+    df['fuelcost'] - df['varom'] - df['carbon']))
+    
 
 # ------------ SINGLE ITERATION ---------------
 # 1. Portfolios send prices
