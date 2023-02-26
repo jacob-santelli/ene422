@@ -30,14 +30,14 @@ def sampleDemand(mean_demand, sd = 0.03):
 
 def main():
 
-    data = pd.read_csv("./Portfolios-2.csv")
+    portfolios_data = pd.read_csv("./Portfolios-2.csv")
 
-    data['is_generating'] = False
-    data['price'] = 0
+    portfolios_data['is_generating'] = False
+    portfolios_data['price'] = 0
 
     # gimme port 1
-    data[data['portfolio'] == 3].loc[:, ('price')]= 1
-    print(data[data['portfolio'] == 3])
+    portfolios_data[portfolios_data['portfolio'] == 3].loc[:, ('price')]= 1
+    print(portfolios_data[portfolios_data['portfolio'] == 3])
 
     
 
