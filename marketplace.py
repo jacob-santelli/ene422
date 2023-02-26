@@ -33,13 +33,39 @@ def main():
     data = pd.read_csv("./Portfolios-2.csv")
 
     data['is_generating'] = False
-    data['price'] = 0
+    data['price'] = [np.random.randint(5)]* len(data)
 
-    # gimme port 1
-    data[data['portfolio'] == 3].loc[:, ('price')]= 1
-    print(data[data['portfolio'] == 3])
+    simulate_hour(10, data)
 
     
+def sample_demand(mu, sd=0.03):
+  return np.random.normal(loc = mu, scale = sd)
+
+def set_price_by_id(data, id, price):
+    data_copy = data.copy()
+    data_copy.loc[data_copy['id'] == id, ('price')] = price
+    return data_copy
+
+def get_ids_of_portfolios(data, portfolio):
+   data_copy = data.copy()
+   return data_copy.loc[data_copy['portfolio'] == portfolio, ('id')]
+
+def simulate_hour(mean_demand, generator_data):
+  sampled_demand = sample_demand(mean_demand)
+  data_copy = generator_data.copy()
+  data_copy['revenue'] = 0
+
+  # Sort data by price
+  data_copy.sort_values('price', ascending=True, inplace=True)
+
+  # Get cumulative demand
+  data_copy['cumulative_capacity'] = data_copy.loc[:, ('mw')].cumsum()
+
+  print(data_copy.head())
+
+def sandbox():
+   df = pd.DataFrame()
+
 
 if __name__ == "__main__":
   main()
