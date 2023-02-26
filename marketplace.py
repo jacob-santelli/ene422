@@ -1,25 +1,28 @@
 #!/usr/bin/env python3
-#--------------------------------------------
+# --------------------------------------------
 # marketplace.py
 # Author: Jacob Santelli and Ian Murray
-#--------------------------------------------
+# --------------------------------------------
 
 import pandas as pd
 import numpy as np
 
+
 # takes a list of portfolio panda objects, returns them appended to one another
 def append(portList):
-  df = portList[0]
-  for port in portList[1:]: {
-      df.append(port)
-  }
-  return df
+    df = portList[0]
+    for port in portList[1:]:
+        {df.append(port)}
+    return df
+
 
 def portSort(portFrame):
-  portFrame.sort_values('price')
+    portFrame.sort_values("price")
 
-def sampleDemand(mean_demand, sd = 0.03):
-  pass
+
+def sampleDemand(mean_demand, sd=0.03):
+    pass
+
 
 def calcRevenue(df, price):
   df['revenue'] = df['is_generating'] * \
@@ -36,49 +39,62 @@ def calcRevenue(df, price):
 
 
 def main():
-
     portfolios_data = pd.read_csv("./generator_info.csv")
 
-    portfolios_data['is_generating'] = False
-    portfolios_data['price'] = np.random.randint(1, 6, size=portfolios_data.shape[0])
+    portfolios_data["is_generating"] = False
+    portfolios_data["price"] = np.random.randint(1, 6, size=portfolios_data.shape[0])
+
+    simulate_hour(10800, portfolios_data)
 
 
-    print(portfolios_data.head(n=50))
-    simulate_hour(10, portfolios_data)
-
-    demand_data = pd.read_csv("./demand_curve.csv")
-
-
-    
 def sample_demand(mu, sd=0.03):
-  return np.random.normal(loc = mu, scale = sd)
+    return np.random.normal(loc=mu, scale=sd)
+
 
 def set_price_by_id(data, id, price):
     data_copy = data.copy()
-    data_copy.loc[data_copy['id'] == id, ('price')] = price
+    data_copy.loc[data_copy["id"] == id, ("price")] = price
     return data_copy
 
+
 def get_ids_of_portfolios(data, portfolio):
-   data_copy = data.copy()
-   return data_copy.loc[data_copy['portfolio'] == portfolio, ('id')]
+    data_copy = data.copy()
+    return data_copy.loc[data_copy["portfolio"] == portfolio, ("id")]
+
 
 def simulate_hour(mean_demand, generator_data):
-  sampled_demand = sample_demand(mean_demand)
-  data_copy = generator_data.copy()
-  data_copy['revenue'] = 0
+    sampled_demand = sample_demand(mean_demand)
+    data_copy = generator_data.copy()
+    data_copy["revenue"] = 0
 
-  # Sort data by price
-  data_copy.sort_values('price', ascending=True, inplace=True)
+    # Sort data by price
+    data_copy.sort_values("price", ascending=True, inplace=True)
 
-  # Get cumulative demand
-  data_copy['cumulative_capacity'] = data_copy.loc[:, ('mw')].cumsum()
+    # Get cumulative demand
+    # data_copy['cumulative_capacity'] = data_copy.loc[:, ('mw')].cumsum()
 
-  # 
+    templist = data_copy.loc[:, ("mw")].cumsum()
+    data_copy["cumulative_capacity"] = templist
 
-  print(data_copy.head())
+    print(f"Pre: {data_copy.shape}")
+    # Get energy price for this hour
+    data_copy["is_generating"] = data_copy["cumulative_capacity"] < sampled_demand
+    print(f"Post: {data_copy.shape}")
+
+    # Marginal generator - need to cover entire demand, so add final generator
+    marg_gen = data_copy[~data_copy["is_generating"]].iloc[0]
+
+    print(f"Sampled demand: {sampled_demand}")
+    print(marg_gen)
+    print(data_copy[data_copy["is_generating"]].iloc[-1])
+
 
 def sandbox():
-   df = pd.DataFrame()
+    df = pd.DataFrame()
+
+    portfolio_1 = {"X": 69.00, "Y": 500.00}
+    # price of generating unit with ID X from portfolio 1
+    portfolio_1["X"]
 
 # set all of the generators from portfolio port
 # to a price defined by some arbitrary function
@@ -102,5 +118,4 @@ def set_portfolio_prices(data, price_func, port):
 
 
 if __name__ == "__main__":
-  main()
-  
+    main()
